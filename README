@@ -1,0 +1,6 @@
+This is a simple script called from a systemd service which:
+
+1. parses /proc/cmdline for nid= and xname= parameters
+2. creates the files /etc/cray/nid and /etc/cray/xname as appropriate
+
+It doesn't really belong as a boot service. It should be replaced by salt or whatever Cray chooses for config management.

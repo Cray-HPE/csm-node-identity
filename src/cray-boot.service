@@ -1,0 +1,14 @@
+#
+# cray-boot.service - cray-boot systemd service file
+# Copyright 2018 Cray Inc. All Rights Reserved.
+#
+[Unit]
+Description=Cray boot script
+
+[Install]
+WantedBy=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/cray-boot.sh
+Restart=never
