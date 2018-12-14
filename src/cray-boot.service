@@ -4,6 +4,7 @@
 #
 [Unit]
 Description=Cray boot script
+DefaultDependencies=no
 
 [Install]
 WantedBy=sysinit.target
@@ -11,4 +12,4 @@ WantedBy=sysinit.target
 [Service]
 Type=oneshot
 ExecStart=/usr/sbin/cray-boot.sh
-Restart=never
+Restart=no
