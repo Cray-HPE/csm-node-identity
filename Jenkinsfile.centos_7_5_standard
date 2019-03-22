@@ -2,4 +2,5 @@
 centos75Standard {
     specfile = "cray-boot-service.spec"
     timeout = 5
+    product = 'shasta-standard'
 }

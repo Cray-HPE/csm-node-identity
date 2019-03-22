@@ -8,5 +8,6 @@
 sle15Premium {
     specfile  = "cray-boot-service.spec"
     timeout = 5
+    product = 'shasta-premium'
 }
 
