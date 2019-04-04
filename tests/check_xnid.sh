@@ -1,10 +1,6 @@
 #!/bin/bash
 # Copyright 2019 Cray Inc. All Rights Reserved.
 #
-# Check if boot_services is running.
-# Use systemctl to check the state of the service. It should be listed as
-# active, There should be no errors, and it should report that it has started
-#
 
 echo '1..4'     # expect 4 TAP results
 notok=0
