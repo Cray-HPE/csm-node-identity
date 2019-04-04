@@ -38,6 +38,12 @@ Cray Systemd Boot Service
 %{__install} -m 0644 src/80-crayboot.preset %{buildroot}%{_presetdir}/80-crayboot.preset
 %{__install} -m 0755 src/cray-boot.sh %{buildroot}%{_sbindir}/cray-boot.sh
 
+%{__mkdir_p} %{buildroot}/opt/dst-test/uai-hourly/boot_service
+%{__mkdir_p} %{buildroot}/opt/dst-test/uai-resources/boot_service
+%{__install} --mode=755 tests/check_xnid.sh %{buildroot}/opt/dst-test/uai-resources/boot_service/check_xnid
+%{__install} --mode=755 tests/compute_job.sh %{buildroot}/opt/dst-test/uai-resources/boot_service/compute_job
+%{__install} --mode=755 tests/boot_service_smoke.sh %{buildroot}/opt/dst-test/uai-hourly/boot_service/boot_service_smoke
+
 %files
 %defattr(-,root,root)
 %if 0%{?prefixdirs:1}
@@ -75,4 +81,19 @@ Cray Systemd Boot Service
 %else
 %systemd_postun_with_restart cray-boot.service
 %endif
+
+# The package ends with the name "crayctldeploy" because the SMS installer
+# will automatically install it. Otherwise an ansible role has to be written
+# to install it.
+%package test-crayctldeploy
+
+Summary: Basic Functionality Tests of the Boot Service
+
+%description test-crayctldeploy
+Cray Boot Service Tests
+
+%files test-crayctldeploy
+/opt/dst-test/uai-resources/boot_service/check_xnid
+/opt/dst-test/uai-resources/boot_service/compute_job
+/opt/dst-test/uai-hourly/boot_service/boot_service_smoke
 
