@@ -5,7 +5,7 @@
 
 echo start job $(date)
 
-srun $RESOURCES/boot_service/check_xnid
+srun $RESOURCES/os/boot_service/check_xnid
 echo exit $?
 
 echo end job $(date)
