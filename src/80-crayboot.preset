@@ -1,3 +1,0 @@
-# Enable crayboot, until we can configure compute nodes
-# Use 80 so that we take priority over distro settings that start with 90-99
-enable cray-boot.service

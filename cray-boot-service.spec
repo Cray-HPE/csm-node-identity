@@ -8,7 +8,7 @@
 %define intranamespace_name boot-service
 
 Name: %{namespace}-%{intranamespace_name}
-Version: 0.1.0 
+Version: 0.1.1
 Release: 1 
 Source: %{name}-%{version}.tar.bz2
 Summary: Cray Boot Service Script 
@@ -32,10 +32,8 @@ Cray Systemd Boot Service
 
 %install
 %{__mkdir_p} %{buildroot}%{_unitdir}
-%{__mkdir_p} %{buildroot}%{_presetdir}
 %{__mkdir_p} %{buildroot}%{_sbindir}
 %{__install} -m 0644 src/cray-boot.service %{buildroot}%{_unitdir}/cray-boot.service
-%{__install} -m 0644 src/80-crayboot.preset %{buildroot}%{_presetdir}/80-crayboot.preset
 %{__install} -m 0755 src/cray-boot.sh %{buildroot}%{_sbindir}/cray-boot.sh
 
 %{__mkdir_p} %{buildroot}/opt/cray/tests/uai-smoke/os/boot_service
@@ -51,7 +49,6 @@ Cray Systemd Boot Service
 %dir %{_sbindir}
 %endif
 %{_unitdir}/cray-boot.service
-%{_presetdir}/80-crayboot.preset
 %{_sbindir}/cray-boot.sh
 
 %clean
