@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright 2018 Cray Inc. All Rights Reserved.
+# Copyright 2019 Cray Inc. All Rights Reserved.
 #
 # parse /proc/cmdline for nid= and xname=
 

@@ -19,7 +19,7 @@ tmp=$(mktemp -d -p $RESOURCES)
 cd $tmp || exit 2
 ec=2
 
-sbatch -n 1 --output=job.out --wait $RESOURCES/os/boot_service/compute_job
+sbatch -n 1 --output=job.out --wait $RESOURCES/os/node_identity/compute_job
 rc=$?
 echo sbatch exit $ec
 if [[ $rc -ne 0 ]]; then

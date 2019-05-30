@@ -1,12 +1,8 @@
-// Jenkinsfile for building cray-boot service 
-
-// Jenkins Shared Libraries are implemented in our CI model (https://connect.us.cray.com/confluence/display/DST/Best+Practices+and+How-To%27s)
-// Jenkins Global Variables are enabled in our CI mode
-
+// Jenkinsfile for building cray-node-identity
 @Library('dst-shared@master') _
 
 sle15Premium {
-    specfile  = "cray-boot-service.spec"
+    specfile  = "cray-node-identity.spec"
     timeout = 5
     product = 'shasta-premium'
 }

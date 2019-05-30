@@ -1,6 +1,6 @@
 @Library('dst-shared@master') _
 centos75Standard {
-    specfile = "cray-boot-service.spec"
+    specfile = "cray-node-identity.spec"
     timeout = 5
     product = 'shasta-standard'
 }

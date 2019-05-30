@@ -1,0 +1,15 @@
+#
+# cray-node-identity.service - cray-node-identity systemd service file
+# Copyright 2019 Cray Inc. All Rights Reserved.
+#
+[Unit]
+Description=Cray node identity script
+DefaultDependencies=no
+
+[Install]
+WantedBy=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/cray-node-identity.sh
+Restart=no
