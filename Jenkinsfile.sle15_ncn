@@ -1,7 +1,7 @@
 @Library('dst-shared@master') _
 sle15NCN {
+    channel = "skern-build"
     specfile = "cray-node-identity.spec"
     timeout = 5
-    target_os = "sle15_ncn"
-    product = "shasta-premium,shasta-standard" 
+    product = "shasta-premium" 
 }

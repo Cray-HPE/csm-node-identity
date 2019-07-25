@@ -1,7 +1,7 @@
 // Jenkinsfile for building cray-node-identity
 @Library('dst-shared@master') _
-
-sle15Premium {
+sle15CN {
+    channel = "skern-build"
     specfile  = "cray-node-identity.spec"
     timeout = 5
     product = 'shasta-premium'

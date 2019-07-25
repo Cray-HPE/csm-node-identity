@@ -1,6 +1,0 @@
-@Library('dst-shared@master') _
-centos75Standard {
-    specfile = "cray-node-identity.spec"
-    timeout = 5
-    product = 'shasta-standard'
-}

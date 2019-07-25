@@ -8,7 +8,7 @@
 %define intranamespace_name node-identity
 
 Name: %{namespace}-%{intranamespace_name}
-Version: 0.1.2
+Version: 0.2.%(echo $BUILD_NUMBER)
 Release: 1 
 Source: %{name}-%{version}.tar.bz2
 Summary: Cray Node Identity Script 
