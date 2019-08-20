@@ -5,5 +5,6 @@ sle15CN {
     specfile  = "cray-node-identity.spec"
     timeout = 5
     product = 'shasta-premium'
+    slackNotification = ["", "", false, false, true, true]
 }
 
