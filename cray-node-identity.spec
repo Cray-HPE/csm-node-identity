@@ -8,7 +8,7 @@
 %define intranamespace_name node-identity
 
 Name: %{namespace}-%{intranamespace_name}
-Version: 0.3.0
+Version: 0.4.0
 Release: %(echo ${BUILD_METADATA})
 Source: %{name}-%{version}.tar.bz2
 Summary: Cray Node Identity Script 
@@ -16,6 +16,7 @@ Group: System/Base
 License: Cray Software License Agreement
 URL: %url
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+Requires: iproute2
 
 %systemd_requires
 
