@@ -1,0 +1,8 @@
+@Library('dst-shared@master') _
+rpmBuild (
+    channel: "skern-build",
+    product: "shasta-premium",
+    target_node: "cn",
+    fanout_params: ["sle15", "sle15sp1"],
+    slack_notify: ["", "", "false", "false", "true", "true"]
+)
