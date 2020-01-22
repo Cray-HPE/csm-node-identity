@@ -1,14 +1,14 @@
 #
 # specfile for node-identity package
 #
-# Copyright 2019 Cray Inc. All Rights Reserved.
+# Copyright 2019, 2020 Cray Inc.
 #
 
 %define namespace cray
 %define intranamespace_name node-identity
 
 Name: %{namespace}-%{intranamespace_name}
-Version: 0.4.0
+Version: 0.4.1
 Release: %(echo ${BUILD_METADATA})
 Source: %{name}-%{version}.tar.bz2
 Summary: Cray Node Identity Script 

@@ -1,10 +1,11 @@
 #!/bin/bash -e
-# Copyright 2019 Cray Inc. All Rights Reserved.
+# Copyright 2019, 2020 Cray Inc.
 #
 # This script is run on the UAI. It's job is to launch the app from
 # the resources directory, collect the output, and judge pass/fail.
 #
 # sbatch is being used at this time due to CASMUSER-969
+source need_wlm
 
 if [ "$RESOURCES" == "" ]; then
     echo "Expected \$RESOURCES to point to the test resource directory on a shared file system!"
