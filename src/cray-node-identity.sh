@@ -42,7 +42,7 @@ while read n i f a rest; do
           # Look for first xname match in hosts entry
           for e in `getent hosts $A`; do
               case $e in
-                  x*c*s*b*n*)
+                  x*c*s*b*n[0-9])
                   echo $e
                   return 
                   ;;
