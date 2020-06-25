@@ -1,5 +1,6 @@
 @Library('dst-shared@master') _
 rpmBuild (
+    specfile: "cray-node-identity.spec",
     channel: "skern-build",
     product: "shasta-premium",
     target_node: "cn",
