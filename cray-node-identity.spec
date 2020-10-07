@@ -1,7 +1,7 @@
 #
 # specfile for node-identity package
 #
-# Copyright 2019, 2020 Cray Inc.
+# Copyright 2019-2020 Hewlett Packard Enterprise Development LP
 #
 
 %define namespace cray
@@ -13,7 +13,8 @@ Release: %(echo ${BUILD_METADATA})
 Source: %{name}-%{version}.tar.bz2
 Summary: Cray Node Identity Script 
 Group: System/Base
-License: Cray Software License Agreement
+Vendor: Hewlett Packard Enterprise Company
+License: HPE Proprietary
 URL: %url
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 Requires: iproute2
