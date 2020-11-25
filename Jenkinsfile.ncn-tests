@@ -1,9 +1,7 @@
+// Copyright 2020 Hewlett Packard Enterprise Development, LP
 @Library('dst-shared@master') _
-rpmBuild (
+@Library('cos-shared@master') cosLib
+cosRpmBuildNCNTest (
     specfile: "cray-node-identity-tests.spec",
-    channel: "skern-build",
-    product: "ct-tests",
-    target_node: "ncn",
-    fanout_params: ["sle15sp1", "sle15sp2"],
-    slack_notify: ["", "", "false", "false", "true", "true"]
 )
+
