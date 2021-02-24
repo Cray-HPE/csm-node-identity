@@ -1,7 +1,7 @@
 #
 # specfile for node-identity package
 #
-# Copyright 2019-2020 Hewlett Packard Enterprise Development LP
+# Copyright 2019-2021 Hewlett Packard Enterprise Development LP
 #
 
 %define namespace cray
@@ -12,7 +12,7 @@
 
 Name: %{namespace}-%{intranamespace_name}
 Version: %(cat .version)
-Release: %(echo ${BUILD_METADATA})
+Release: %{cos_rpm_release}
 Source: %{name}-%{version}.tar.bz2
 Summary: Cray Node Identity Service Tests
 Group: System/Base
@@ -20,6 +20,8 @@ Vendor: Hewlett Packard Enterprise Company
 License: HPE Proprietary
 URL: %url
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+
+BuildRequires: cos-buildmacros
 
 %description
 Cray Node Identity Service Tests
