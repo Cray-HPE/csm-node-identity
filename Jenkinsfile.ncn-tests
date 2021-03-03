@@ -1,6 +1,6 @@
 // Copyright 2020 Hewlett Packard Enterprise Development, LP
-@Library('dst-shared@master') _
-@Library('cos-shared@master') cosLib
+@Library('dst-shared@release/cos-2.1') _
+@Library('cos-shared@release/cos-2.1') cosLib
 cosRpmBuildNCNTest (
     specfile: "cray-node-identity-tests.spec",
 )
