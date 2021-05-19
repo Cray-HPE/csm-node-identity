@@ -1,0 +1,11 @@
+[Unit]
+Description=CSM node identity service
+DefaultDependencies=no
+
+[Install]
+WantedBy=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/csm-node-identity.sh
+Restart=no

@@ -1,7 +1,0 @@
-// Copyright 2020 Hewlett Packard Enterprise Development, LP
-@Library('dst-shared@release/cos-2.1') _
-@Library('cos-shared@release/cos-2.1') cosLib
-cosRpmBuildNCN (
-    specfile: "cray-node-identity.spec",
-)
-

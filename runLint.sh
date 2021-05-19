@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -20,6 +21,9 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 # (MIT License)
-zypper ar -G http://download.buildservice.us.cray.com/dst:/master/SLE_15/dst:master.repo
-zypper install -y cray-build-macros
+
+./install_cms_meta_tools.sh || exit 1
+./cms_meta_tools/copyright_license_check/copyright_license_check.sh || exit 1
+rm -rf ./cms_meta_tools
+exit 0
 
