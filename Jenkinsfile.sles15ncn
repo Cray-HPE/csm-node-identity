@@ -10,6 +10,6 @@ rpmBuild (
     slack_notify: ["", "", "false", "false", "true", "true"],
     specfile: "csm-node-identity.spec",
     githubPushRepo: "Cray-HPE/csm-node-identity",
-    githubPushBranches: /(bugfix\/.*|feature\/.*|hotfix\/.*|master|release\/.*)/
+    githubPushBranches: /(bugfix\/.*|feature\/.*|hotfix\/.*|main|release\/.*)/
 )
 
