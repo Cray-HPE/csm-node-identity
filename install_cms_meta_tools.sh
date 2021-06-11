@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,7 +22,8 @@
 #
 # (MIT License)
 
-CMT_RPMS_URL=http://car.dev.cray.com/artifactory/internal/SCMS/sle15_sp2/noarch/release/cmt-0.1/cms-team/
+REL=cmt-0.1
+CMT_RPMS_URL=https://arti.dev.cray.com/artifactory/internal-rpm-master-local/release/$REL/sle15_sp2/noarch/
 
 # Find latest cms-meta-tools RPM in our chosen release (0.1)
 function cmt-rpm-url
@@ -52,4 +53,3 @@ mkdir -pv "$TRGDIR" || exit 1
 # Install the rpm into this directory, do not check/update the rpm db, and (because of that) do not check dependencies
 rpm -Uvh --relocate /opt/cray/cms-meta-tools="$TRGDIR" --nodeps --dbpath "$TRGDIR" $RPM_URL || exit 1
 exit 0
-
