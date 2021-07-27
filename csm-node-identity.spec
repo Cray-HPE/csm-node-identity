@@ -32,9 +32,12 @@ Vendor: Hewlett Packard Enterprise Company
 License: MIT
 URL: %url
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires: systemd
 Requires: iproute2
 
-%systemd_requires
+%{!?_unitdir:
+%define _unitdir /usr/lib/systemd/system
+ }
 
 %description
 Cray System Management (CSM) systemd Node Identity Service 
