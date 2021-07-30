@@ -36,6 +36,12 @@ pipeline {
             }
         }
 
+        stage("Delete cms_meta_tools") {
+            steps {
+                sh "make delete_cms_meta_tools"
+            }
+        }
+
         stage("Prepare") {
             steps {
                 script {
