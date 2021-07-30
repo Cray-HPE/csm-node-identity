@@ -33,7 +33,7 @@ SOURCE_NAME := ${name}-${version}
 BUILD_DIR := $(PWD)/dist/rpmbuild
 SOURCE_PATH := ${BUILD_DIR}/SOURCES/${SOURCE_NAME}.tar.bz2
 
-all : clone_cms_meta_tools build_prep lint prepare rpm
+all : clone_cms_meta_tools build_prep lint delete_cms_meta_tools prepare rpm
 
 # If you wish to perform a local build, you will need to clone or copy the contents of the
 # cms_meta_tools repo to ./cms_meta_tools
@@ -45,7 +45,6 @@ build_prep:
 
 lint:
 		./cms_meta_tools/scripts/runLint.sh
-
 
 delete_cms_meta_tools:
 		rm -rf ./cms_meta_tools
