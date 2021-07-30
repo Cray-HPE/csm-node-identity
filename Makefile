@@ -48,7 +48,7 @@ lint:
 
 
 delete_cms_meta_tools:
-               rm -rf ./cms_meta_tools
+		rm -rf ./cms_meta_tools
 
 rpm: rpm_package_source rpm_build_source rpm_build
 
