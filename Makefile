@@ -20,37 +20,29 @@
 #
 # (MIT License)
 
-name = csm-node-identity
+# If you wish to perform a local build, you will need to clone or copy the contents of the
+# cms-meta-tools repo to ./cms_meta_tools
 
-version := $(shell cat .version)
+NAME ?= csm-node-identity
+RPM_VERSION := $(shell head -1 .version)
 
 # Default release if not set
 BUILD_METADATA ?= "1~development~$(shell git rev-parse --short HEAD)"
 
-SPEC_FILE := ${name}.spec
-SOURCE_NAME := ${name}-${version}
+SPEC_FILE := ${NAME}.spec
+SOURCE_NAME := ${NAME}-${RPM_VERSION}
 
 BUILD_DIR := $(PWD)/dist/rpmbuild
 SOURCE_PATH := ${BUILD_DIR}/SOURCES/${SOURCE_NAME}.tar.bz2
 
-all : clone_cms_meta_tools build_prep lint prepare rpm
+all : runbuildprep lint prepare rpm
+rpm: rpm_package_source rpm_build_source rpm_build
 
-# If you wish to perform a local build, you will need to clone or copy the contents of the
-# cms_meta_tools repo to ./cms_meta_tools
-clone_cms_meta_tools:
-		git clone --depth 1 --no-single-branch https://github.com/Cray-HPE/cms-meta-tools.git ./cms_meta_tools
-
-build_prep:
+runbuildprep:
 		./cms_meta_tools/scripts/runBuildPrep.sh
 
 lint:
 		./cms_meta_tools/scripts/runLint.sh
-
-
-delete_cms_meta_tools:
-		rm -rf ./cms_meta_tools
-
-rpm: rpm_package_source rpm_build_source rpm_build
 
 prepare:
 		rm -rf dist
@@ -58,7 +50,11 @@ prepare:
 		cp $(SPEC_FILE) $(BUILD_DIR)/SPECS/
 
 rpm_package_source:
-		tar --transform 'flags=r;s,^,/$(SOURCE_NAME)/,' --exclude .git --exclude dist -cvjf $(SOURCE_PATH) .
+		tar --transform 'flags=r;s,^,/$(SOURCE_NAME)/,' \
+			--exclude .git \
+			--exclude ./dist \
+			--exclude ./cms_meta_tools \
+			-cvjf $(SOURCE_PATH) .
 
 rpm_build_source:
 		BUILD_METADATA=$(BUILD_METADATA) rpmbuild -ts $(SOURCE_PATH) --define "_topdir $(BUILD_DIR)"

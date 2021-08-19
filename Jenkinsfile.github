@@ -1,4 +1,5 @@
-@Library('csm-shared-library') _
+@Library('cms-meta-tools') _
+@Library('csm-shared-library') __
 
 pipeline {
     agent {
@@ -11,7 +12,8 @@ pipeline {
     }
 
     environment {
-        SPEC_FILE = "csm-node-identity.spec"
+        NAME = "csm-node-identity"
+        SPEC_FILE = "${env.NAME}.spec"
         IS_STABLE = getBuildIsStable()
         BUILD_METADATA = getRpmRevision(isStable: env.IS_STABLE)
     }
@@ -19,14 +21,21 @@ pipeline {
     stages {
         stage("Clone cms_meta_tools repo") {
             steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'jenkins-algol60-cray-hpe-github-integration')]) {
-                    sh "make clone_cms_meta_tools"
-                }
+                // This function is defined in cms-meta-tools:vars/cloneCMSMetaTools.groovy
+                cloneCMSMetaTools()
             }
         }
-        stage("Build Prep") {
+
+        stage("Set Versions") {
             steps {
-                sh "make build_prep"
+                // This function is defined in cms-meta-tools:vars/setVersionFiles.groovy
+                setVersionFiles()
+            }
+        }
+
+        stage("runBuildPrep") {
+            steps {
+                sh "make runbuildprep"
             }
         }
 
@@ -36,16 +45,17 @@ pipeline {
             }
         }
 
-        stage("Delete cms_meta_tools") {
+        stage("Add RPM Metadata") {
             steps {
-                sh "make delete_cms_meta_tools"
+                script {
+                    runLibraryScript("addRpmMetaData.sh", env.SPEC_FILE)
+                }
             }
         }
 
         stage("Prepare") {
             steps {
                 script {
-                    runLibraryScript("addRpmMetaData.sh", env.SPEC_FILE)
                     sh "make prepare"
                 }
             }
@@ -61,11 +71,8 @@ pipeline {
 
         stage('Publish ') {
             steps {
-                script {
-                    publishCsmRpms(component: "csm-node-identity", pattern: "dist/rpmbuild/RPMS/x86_64/*.rpm", arch: "x86_64", isStable: env.IS_STABLE)
-                    publishCsmRpms(component: "csm-node-identity", pattern: "dist/rpmbuild/SRPMS/*.rpm", arch: "src", isStable: env.IS_STABLE)
-		    sh 'echo "Done publishing"'
-                }
+                publishCsmRpms(component: "csm-node-identity", pattern: "dist/rpmbuild/RPMS/x86_64/*.rpm", arch: "x86_64", isStable: env.IS_STABLE)
+                publishCsmRpms(component: "csm-node-identity", pattern: "dist/rpmbuild/SRPMS/*.rpm", arch: "src", isStable: env.IS_STABLE)
             }
         }
     }
