@@ -2,7 +2,7 @@
  *
  *  MIT License
  *
- *  (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+ *  (C) Copyright 2022 Hewlett Packard Enterprise Development LP
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a
  *  copy of this software and associated documentation files (the "Software"),
@@ -23,81 +23,102 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-@Library('cms-meta-tools') _
-@Library('csm-shared-library') __
+@Library('csm-shared-library') _
 
+def isStable = env.TAG_NAME != null ? true : false
+def sleImage = 'artifactory.algol60.net/csm-docker/stable/csm-docker-sle'
 pipeline {
+
     agent {
         label "metal-gcp-builder"
     }
 
     options {
         buildDiscarder(logRotator(numToKeepStr: "10"))
+        disableConcurrentBuilds()
+        timeout(time: 20, unit: 'MINUTES')
         timestamps()
     }
 
     environment {
-        NAME = "csm-node-identity"
-        SPEC_FILE = "${env.NAME}.spec"
-        IS_STABLE = getBuildIsStable()
-        BUILD_METADATA = getRpmRevision(isStable: env.IS_STABLE)
+        NAME = getRepoName()
+        VERSION = sh(returnStdout: true, script: "git describe --tags | tr -s '-' '~' | tr -d '^v'").trim()
     }
 
     stages {
-        stage("Clone cms_meta_tools repo") {
-            steps {
-                // This function is defined in cms-meta-tools:vars/cloneCMSMetaTools.groovy
-                cloneCMSMetaTools()
-            }
-        }
 
-        stage("Set Versions") {
-            steps {
-                // This function is defined in cms-meta-tools:vars/setVersionFiles.groovy
-                setVersionFiles()
-            }
-        }
+        stage('Build & Publish') {
 
-        stage("runBuildPrep") {
-            steps {
-                sh "make runbuildprep"
-            }
-        }
+            matrix {
 
-        stage("Lint") {
-            steps {
-                sh "make lint"
-            }
-        }
-
-        stage("Add RPM Metadata") {
-            steps {
-                script {
-                    runLibraryScript("addRpmMetaData.sh", env.SPEC_FILE)
+                agent {
+                    node {
+                        label "metal-gcp-builder"
+                        customWorkspace "${env.WORKSPACE}/${sleVersion}"
+                    }
                 }
-            }
-        }
 
-        stage("Prepare") {
-            steps {
-                script {
-                    sh "make prepare"
+                axes {
+                    axis {
+                        name 'sleVersion'
+                        values 15.3, 15.4
+                    }
                 }
-            }
-        }
 
-        stage("Build RPM") {
-            steps {
-                script {
-                    sh "make rpm"
+                stages {
+
+                    stage('Prepare: RPMs') {
+                        agent {
+                            docker {
+                                label 'docker'
+                                reuseNode true
+                                image "${sleImage}:${sleVersion}"
+                            }
+                        }
+                        steps {
+                            runLibraryScript("addRpmMetaData.sh", "${env.NAME}.spec")
+                            sh "make prepare"
+                            sh "git update-index --assume-unchanged ${env.NAME}.spec"
+                        }
+                    }
+
+                    stage('Build: RPMs') {
+                        agent {
+                            docker {
+                                label 'docker'
+                                reuseNode true
+                                image "${sleImage}:${sleVersion}"
+                            }
+                        }
+                        steps {
+                            sh "make rpm"
+                        }
+                    }
+
+                    stage('Publish: RPMs') {
+                        steps {
+                            script {
+                                sles_version_parts = "${sleVersion}".tokenize('.')
+                                sles_major = "${sles_version_parts[0]}"
+                                sles_minor = "${sles_version_parts[1]}"
+                                publishCsmRpms(
+                                        arch: "noarch",
+                                        component: env.NAME,
+                                        isStable: isStable,
+                                        os: "sle-${sles_major}sp${sles_minor}",
+                                        pattern: "dist/rpmbuild/RPMS/noarch/*.rpm",
+                                )
+                                publishCsmRpms(
+                                        arch: "src",
+                                        component: env.NAME,
+                                        isStable: isStable,
+                                        os: "sle-${sles_major}sp${sles_minor}",
+                                        pattern: "dist/rpmbuild/SRPMS/*.rpm",
+                                )
+                            }
+                        }
+                    }
                 }
-            }
-        }
-
-        stage('Publish ') {
-            steps {
-                publishCsmRpms(component: "csm-node-identity", pattern: "dist/rpmbuild/RPMS/x86_64/*.rpm", arch: "x86_64", isStable: env.IS_STABLE)
-                publishCsmRpms(component: "csm-node-identity", pattern: "dist/rpmbuild/SRPMS/*.rpm", arch: "src", isStable: env.IS_STABLE)
             }
         }
     }

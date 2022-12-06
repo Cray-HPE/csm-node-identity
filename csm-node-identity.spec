@@ -1,3 +1,4 @@
+#
 # Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -18,20 +19,15 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# (MIT License)
-%define namespace csm
-%define intranamespace_name node-identity
-
-Name: %{namespace}-%{intranamespace_name}
-Version: %(cat .version)
-Release: %(echo ${BUILD_METADATA})
+Name: %(echo $NAME)
+Version: %(echo $VERSION)
+Release: 1
 Source: %{name}-%{version}.tar.bz2
 Summary: CSM Node Identity Service
 Group: System/Management
 Vendor: Hewlett Packard Enterprise Company
 License: MIT
-URL: %url
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildArchitectures: noarch
 BuildRequires: systemd
 Requires: iproute2
 

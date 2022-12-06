@@ -21,31 +21,5 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-name: Gitflow Merge Back
-on:
-  pull_request:
-    types: [ closed ]
-    branches: [ master ]
-
-jobs:
-  merge-to-develop:
-    # this job will only run if the PR has been merged, not just closed
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Create the gitflow mergeback PR
-        uses: Cray-HPE/.github/actions/csm-gitflow-mergeback@v1-csm-gitflow-mergeback
-        id: create-pr
-        with:
-          source-branch: master
-          base-branch: develop
-          automerge: true
-          app-key: ${{ secrets.CSM_GITFLOW_MERGEBACK_BOT_APP_KEY }}
-          app-id: ${{ secrets.CSM_GITFLOW_MERGEBACK_BOT_APP_ID }}
-
-      - name: Generated Pull Request Info
-        shell: bash
-        run: |
-          echo "Pull Request Number - ${{ steps.create-pr.outputs.pr-number }}"
-          echo "Pull Request URL - ${{ steps.create-pr.outputs.pr-url }}"
+# Default group
+*       @Cray-HPE/metal
