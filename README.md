@@ -1,54 +1,23 @@
-# csm-node-identity
+# `csm-node-identity`
 
-csm-node-identity is a systemd service which does the following:
-
-1. Parses `/proc/cmdline` for `nid=` and `xname=` parameters, and
-2. Creates the files `/etc/cray/nid` and `/etc/cray/xname`, as appropriate.
+`csm-node-identity` is a systemd service that creates identification files based on command line parameters.
+1. When `nid=` is present on the command line, an `/etc/cray/nid` file is created
+1. When `xname=` is present on the command line, an `/etc/crya/xname` file is created   
 
 These files are required by other packages to determine node name information.
 
 ## Installation
 
-csm-node-identity is installed via RPM using your OS-specific package manager.
+`csm-node-identity` is installed via RPM using your OS-specific package manager.
 
 ## Usage
 
-N/A
+- `/etc/cray/nid` presents the node identifier
+- `/etc/cray/xname` presents the geo-location identifier for the node
 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## Build Helpers
-This repo uses some build helpers from the 
-[cms-meta-tools](https://github.com/Cray-HPE/cms-meta-tools) repo. See that repo for more details.
-
-## Local Builds
-If you wish to perform a local build, you will first need to clone or copy the contents of the
-cms-meta-tools repo to `./cms_meta_tools` in the same directory as the `Makefile`. When building
-on github, the cloneCMSMetaTools() function clones the cms-meta-tools repo into that directory.
-
-For a local build, you will also need to manually write the .version, .docker_version (if this repo
-builds a docker image), and .chart_version (if this repo builds a helm chart) files. When building
-on github, this is done by the setVersionFiles() function.
-
-## Versioning
-The version of this repo is generated dynamically at build time by running the version.py script in 
-cms-meta-tools. The version is included near the very beginning of the github build output. 
-
-In order to make it easier to go from an artifact back to the source code that produced that artifact,
-a text file named gitInfo.txt is added to Docker images built from this repo. For Docker images,
-it can be found in the / folder. This file contains the branch from which it was built and the most
-recent commits to that branch. 
-
-For helm charts, a few annotation metadata fields are appended which contain similar information.
-
-For RPMs, a changelog entry is added with similar information.
-
-## New Release Branches
-When making a new release branch:
-    * Be sure to set the `.x` and `.y` files to the desired major and minor version number for this repo for this release. 
-    * If an `update_external_versions.conf` file exists in this repo, be sure to update that as well, if needed.
 
 ## Copyright and License
 This project is copyrighted by Hewlett Packard Enterprise Development LP and is under the MIT
@@ -73,4 +42,3 @@ In Shasta 1.5 and previous releases of CSM `<1.2.0`, this package was provided b
 ## Changelog
 
 - `1.0.0` - initial release included in the CSM product.
-
