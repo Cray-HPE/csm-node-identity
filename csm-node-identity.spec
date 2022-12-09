@@ -30,6 +30,9 @@ License: MIT
 BuildArchitectures: noarch
 BuildRequires: systemd
 Requires: iproute2
+Obsoletes: cray-node-identity
+Conflicts: cray-node-identity
+Provides: cray-node-identity
 
 %{!?_unitdir:
 %define _unitdir /usr/lib/systemd/system
