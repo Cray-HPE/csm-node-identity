@@ -54,6 +54,11 @@ Cray System Management (CSM) systemd Node Identity Service
 %{__mkdir_p} %{buildroot}%{_sbindir}
 %{__install} -m 0644 src/csm-node-identity.service %{buildroot}%{_unitdir}/csm-node-identity.service
 %{__install} -m 0755 src/csm-node-identity.sh %{buildroot}%{_sbindir}/csm-node-identity.sh
+%if 0%{?suse_version}
+echo "install suse" >> %{buildroot}/rpms.txt
+%else
+echo "install non-suse" >> %{buildroot}/rpms.txt
+%endif
 
 %files
 %defattr(-,root,root)
@@ -68,27 +73,34 @@ Cray System Management (CSM) systemd Node Identity Service
 
 %pre
 %if 0%{?suse_version}
+echo "clean pre suse" >> %{buildroot}/rpms.txt
 %service_add_pre csm-node-identity.service
 %endif
 
 %post
 %if 0%{?suse_version}
+echo "clean post suse" >> %{buildroot}/rpms.txt
 %service_add_post csm-node-identity.service
 %else
+echo "clean post non-suse" >> %{buildroot}/rpms.txt
 %systemd_post csm-node-identity.service
 %endif
 
 %preun
 %if 0%{?suse_version}
+echo "clean preun suse" >> %{buildroot}/rpms.txt
 %service_del_preun csm-node-identity.service
 %else
+echo "clean preun non-suse" >> %{buildroot}/rpms.txt
 %systemd_preun csm-node-identity.service
 %endif
 
 %postun
 %if 0%{?suse_version}
+echo "clean postun suse" >> %{buildroot}/rpms.txt
 %service_del_postun csm-node-identity.service
 %else
+echo "clean postun non-suse" >> %{buildroot}/rpms.txt
 %systemd_postun_with_restart csm-node-identity.service
 %endif
 
