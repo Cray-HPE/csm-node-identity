@@ -55,9 +55,9 @@ Cray System Management (CSM) systemd Node Identity Service
 %{__install} -m 0644 src/csm-node-identity.service %{buildroot}%{_unitdir}/csm-node-identity.service
 %{__install} -m 0755 src/csm-node-identity.sh %{buildroot}%{_sbindir}/csm-node-identity.sh
 %if 0%{?suse_version}
-echo "install suse" >> %{buildroot}/rpms.txt
+echo "install 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
 %else
-echo "install non-suse" >> %{buildroot}/rpms.txt
+echo "install 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
 %endif
 
 %files
@@ -68,40 +68,40 @@ echo "install non-suse" >> %{buildroot}/rpms.txt
 %endif
 %{_unitdir}/csm-node-identity.service
 %{_sbindir}/csm-node-identity.sh
-rpms.txt
+/rpms.txt
 
 %clean
 
 %pre
 %if 0%{?suse_version}
-echo "clean pre suse" >> %{buildroot}/rpms.txt
+echo "clean pre 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
 %service_add_pre csm-node-identity.service
 %endif
 
 %post
 %if 0%{?suse_version}
-echo "clean post suse" >> %{buildroot}/rpms.txt
+echo "clean post 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
 %service_add_post csm-node-identity.service
 %else
-echo "clean post non-suse" >> %{buildroot}/rpms.txt
+echo "clean post 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
 %systemd_post csm-node-identity.service
 %endif
 
 %preun
 %if 0%{?suse_version}
-echo "clean preun suse" >> %{buildroot}/rpms.txt
+echo "clean preun 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
 %service_del_preun csm-node-identity.service
 %else
-echo "clean preun non-suse" >> %{buildroot}/rpms.txt
+echo "clean preun 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
 %systemd_preun csm-node-identity.service
 %endif
 
 %postun
 %if 0%{?suse_version}
-echo "clean postun suse" >> %{buildroot}/rpms.txt
+echo "clean postun 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
 %service_del_postun csm-node-identity.service
 %else
-echo "clean postun non-suse" >> %{buildroot}/rpms.txt
+echo "clean postun 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
 %systemd_postun_with_restart csm-node-identity.service
 %endif
 
