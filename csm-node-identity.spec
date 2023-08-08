@@ -68,6 +68,7 @@ echo "install non-suse" >> %{buildroot}/rpms.txt
 %endif
 %{_unitdir}/csm-node-identity.service
 %{_sbindir}/csm-node-identity.sh
+rpms.txt
 
 %clean
 
