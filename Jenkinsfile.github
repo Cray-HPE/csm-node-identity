@@ -56,13 +56,6 @@ pipeline {
 
         stage('Build & Publish') {
 
-            agent {
-                node {
-                    label "metal-gcp-builder"
-                    customWorkspace "${env.WORKSPACE}/${sleVersion}"
-                }
-            }
-
             stages {
 
                 stage('Prepare: RPMs') {
@@ -114,7 +107,8 @@ pipeline {
                                     component: env.NAME,
                                     isStable: isStable,
                                     os: "noos",
-                                    pattern: "dist/rpmbuild/SRPMS/*.rpm",)
+                                    pattern: "dist/rpmbuild/SRPMS/*.rpm",
+                            )
                         }
                     }
                 }
