@@ -57,7 +57,11 @@ Cray System Management (CSM) systemd Node Identity Service
 %if 0%{?suse_version}
 echo "install 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
 %else
+%if 0%{?sle_version}
+echo "install 0%{?suse_version} sle" >> %{buildroot}/rpms.txt
+%else
 echo "install 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
+%endif
 %endif
 
 %files
@@ -74,34 +78,54 @@ echo "install 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
 
 %pre
 %if 0%{?suse_version}
-echo "clean pre 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
+echo "clean pre 0%{?suse_version} 0%{?sle_version} suse" >> %{buildroot}/rpms.txt
 %service_add_pre csm-node-identity.service
+%else
+%if 0%{?sle_version}
+echo "clean pre 0%{?suse_version} 0%{?sle_version} sle" >> %{buildroot}/rpms.txt
+%service_add_pre csm-node-identity.service
+%endif
 %endif
 
 %post
 %if 0%{?suse_version}
-echo "clean post 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
+echo "clean post 0%{?suse_version} 0%{?sle_version} suse" >> %{buildroot}/rpms.txt
 %service_add_post csm-node-identity.service
 %else
-echo "clean post 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
+%if 0%{?sle_version}
+echo "clean post 0%{?suse_version} 0%{?sle_version} sle" >> %{buildroot}/rpms.txt
+%service_add_post csm-node-identity.service
+%else
+echo "clean post 0%{?suse_version} 0%{?sle_version} non-suse" >> %{buildroot}/rpms.txt
 %systemd_post csm-node-identity.service
+%endif
 %endif
 
 %preun
 %if 0%{?suse_version}
-echo "clean preun 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
+echo "clean preun 0%{?suse_version} 0%{?sle_version} suse" >> %{buildroot}/rpms.txt
 %service_del_preun csm-node-identity.service
 %else
-echo "clean preun 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
+%if 0%{?sle_version}
+echo "clean preun 0%{?suse_version} 0%{?sle_version} sle" >> %{buildroot}/rpms.txt
+%service_del_preun csm-node-identity.service
+%else
+echo "clean preun 0%{?suse_version} 0%{?sle_version} non-sue" >> %{buildroot}/rpms.txt
 %systemd_preun csm-node-identity.service
+%endif
 %endif
 
 %postun
 %if 0%{?suse_version}
-echo "clean postun 0%{?suse_version} suse" >> %{buildroot}/rpms.txt
+echo "clean postun 0%{?suse_version} 0%{?sle_version} suse" >> %{buildroot}/rpms.txt
 %service_del_postun csm-node-identity.service
 %else
-echo "clean postun 0%{?suse_version} non-suse" >> %{buildroot}/rpms.txt
+%if 0%{?sle_version}
+echo "clean postun 0%{?suse_version} 0%{?sle_version} sle" >> %{buildroot}/rpms.txt
+%service_del_postun csm-node-identity.service
+%else
+echo "clean postun 0%{?suse_version} 0%{?sle_version} non-suse" >> %{buildroot}/rpms.txt
 %systemd_postun_with_restart csm-node-identity.service
+%endif
 %endif
 
